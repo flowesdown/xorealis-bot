@@ -3,17 +3,32 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.ovidius</groupId>
-        <artifactId>xorealis-bot</artifactId>
+        <artifactId>xorealis-bot-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>discord-adapter</artifactId>
-    <name>Archetype - discord-adapter</name>
+    <name>Discord Adapter</name>
+
     <url>http://maven.apache.org</url>
+
     <dependencies>
+
+
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
             <version>5.0.0-beta.24</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.dv8tion</groupId>
+            <artifactId>JDA</artifactId>
+            <version>5.0.0-beta.24</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>3.4.8</version>
         </dependency>
     </dependencies>
 </project>
