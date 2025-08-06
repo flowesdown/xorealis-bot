@@ -34,5 +34,10 @@
             <artifactId>minecraft-client</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.ovidius</groupId>
+            <artifactId>persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>
