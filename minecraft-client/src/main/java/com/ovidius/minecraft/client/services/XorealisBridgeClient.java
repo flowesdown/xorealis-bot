@@ -5,11 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
+@Service
 public class XorealisBridgeClient {
 
     private static final Logger log = LoggerFactory.getLogger(XorealisBridgeClient.class);
@@ -24,7 +26,7 @@ public class XorealisBridgeClient {
     }
 
     public Optional<NetworkStatusDto> getNetworkStatus() {
-        String url = apiBaseUrl + "api/v1/network/status";
+        String url = apiBaseUrl + "/api/v1/network/status";
         log.info("Requesting network status from: {} ", url);
 
         try{

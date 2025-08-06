@@ -22,7 +22,7 @@ public class ServerInfoListener extends ListenerAdapter {
         if(!event.getName().equals("server")){
             return;
         }
-        event.replyEmbeds(serverInfoService.createServerInfoEmbed()).queue();
+        event.replyEmbeds(serverInfoService.createStatusEmbed()).queue();
 
     }
 

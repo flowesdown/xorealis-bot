@@ -6,7 +6,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan(basePackages = {"com.ovidius.botapp", "com.ovidius.adapter"})
+@ComponentScan(basePackages = {
+		"com.ovidius.botapp",
+		"com.ovidius.adapter",
+		"com.ovidius.minecraft.client"
+})
 @SpringBootApplication
 public class BotAppApplication {
 

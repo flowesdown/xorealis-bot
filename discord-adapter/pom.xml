@@ -28,7 +28,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <version>3.4.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ovidius</groupId>
+            <artifactId>minecraft-client</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>
