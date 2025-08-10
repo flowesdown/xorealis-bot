@@ -3,6 +3,7 @@ package com.ovidius.botapp.config;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,21 +22,34 @@ public class CommandRegistry {
                 Commands.slash("divorce", "Расторгнуть текущий брак"),
                 Commands.slash("couple", "Посмотреть профиль своей или чужой пары")
                         .addOption(OptionType.USER, "user", "Пользователь, чью пару вы хотите посмотреть (необязательно)", false),
-
-                // --- Синонимы ---
                 Commands.slash("kiss", "Поцеловать своего партнера")
                         .addOption(OptionType.USER, "partner", "Ваш партнер по браку", true),
                 Commands.slash("поцеловать", "Поцеловать своего партнера")
                         .addOption(OptionType.USER, "partner", "Ваш партнер по браку", true),
                 Commands.slash("чмок", "Чмокнуть своего партнера")
                         .addOption(OptionType.USER, "partner", "Ваш партнер по браку", true),
-
                 Commands.slash("hug", "Обнять своего партнера")
                         .addOption(OptionType.USER, "partner", "Ваш партнер по браку", true),
                 Commands.slash("обнять", "Обнять своего партнера")
                         .addOption(OptionType.USER, "partner", "Ваш партнер по браку", true),
+                Commands.slash("couple-top", "Показать топ-10 самых долгих браков"),
 
-                Commands.slash("couple-top", "Показать топ-10 самых долгих браков")
+                // === TOWNY COMMANDS ===
+                Commands.slash("town", "Показывает информацию о городе")
+                        .addOption(OptionType.STRING, "name", "Название города", true),
+
+                Commands.slash("nation", "Показывает информацию о нации")
+                        .addOption(OptionType.STRING, "name", "Название нации", true),
+
+                Commands.slash("top", "Показывает различные топы сервера")
+                        .addSubcommands(
+                                new SubcommandData("towns-balance", "Топ-10 городов по балансу"),
+                                new SubcommandData("towns-residents", "Топ-10 городов по жителям"),
+                                new SubcommandData("nations-balance", "Топ-10 наций по балансу"),
+                                new SubcommandData("nations-residents", "Топ-10 наций по жителям"),
+                                new SubcommandData("nations-landsize", "Топ-10 наций по размеру")
+                        )
+
         ).queue();
     }
 }
