@@ -4,12 +4,28 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CommandRegistry {
+
+    @Value("${discord.test-guild-id:#{null}}")
+    private String testGuildId;
+
     public void registerCommands(JDA jda) {
-        jda.updateCommands().addCommands(
+
+        var commandList = jda.updateCommands();
+
+        if (testGuildId != null && !testGuildId.isBlank()) {
+            var guild = jda.getGuildById(testGuildId);
+            if (guild != null) {
+                commandList = guild.updateCommands();
+                System.out.println("Registering commands for test guild: " + guild.getName());
+            }
+        }
+
+        commandList.addCommands(
                 Commands.slash("ping", "Проверить задержку бота"),
                 Commands.slash("server", "Показывает информацию о сервере"),
                 Commands.slash("rule", "Показывает правило по его номеру")

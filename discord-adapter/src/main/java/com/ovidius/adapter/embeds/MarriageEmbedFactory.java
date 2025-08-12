@@ -1,9 +1,11 @@
 package com.ovidius.adapter.embeds;
 
+import com.ovidius.persistence.model.CoupleInfo;
 import com.ovidius.persistence.model.Marriage;
 import com.ovidius.persistence.model.MarriageProposal;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import org.springframework.stereotype.Component;
@@ -81,7 +83,7 @@ public class MarriageEmbedFactory {
     }
 
     public MessageEmbed createCoupleProfileEmbed(Marriage marriage, User partner1, User partner2) {
-        String duration = formatDuration(marriage.getMarriageDate());
+        String duration = MarriageEmbedFactory.formatDuration(marriage.getMarriageDate());
 
         return new EmbedBuilder()
                 .setColor(MARRIAGE_COLOR)
@@ -101,38 +103,24 @@ public class MarriageEmbedFactory {
                 .build();
     }
 
-    public MessageEmbed createCouplesTopEmbed(List<Marriage> topCouples, JDA jda) {
+    public MessageEmbed createCouplesTopEmbed(List<CoupleInfo> topCouples) {
         EmbedBuilder embed = new EmbedBuilder()
                 .setColor(MARRIAGE_COLOR)
-                .setTitle("\uD83D\uDC96 Топ-10 самых долгих браков");
-        if (topCouples.isEmpty()) {
-            embed.setDescription("На сервере пока нет ни одной пары!");
-            return embed.build();
-        }
+                .setTitle("💖 Топ-10 самых долгих браков");
+
+        if (topCouples.isEmpty()) { /* ... */ }
 
         StringBuilder description = new StringBuilder();
-        int rank = 1;
-        for (Marriage marriage : topCouples) {
-            User p1 = jda.getUserById(marriage.getFirstPartnerId());
-            User p2 = jda.getUserById(marriage.getSecondPartnerId());
-
-            String p1Name = (p1 != null) ? p1.getName() : "Неизвестно";
-            String p2Name = (p2 != null) ? p2.getName() : "Неизвестно";
-            String duration = formatDuration(marriage.getMarriageDate());
-
-            String medal = switch(rank){
-                case 1 -> "🥇";
-                case 2 -> "🥈";
-                case 3 -> "🥉";
-                default -> String.format("**%d.**",rank);
-            };
-            description.append(String.format("%s `%s` и `%s` (%s)\n", medal, p1Name, p2Name, formatDuration(marriage.getMarriageDate())));
-            rank++;
+        for (int i = 0; i < topCouples.size(); i++) {
+            CoupleInfo couple = topCouples.get(i);
+            String medal = getMedal(i + 1); // <-- ВАШ ЗАПРОС
+            description.append(String.format("%s `%s` и `%s` (%s)\n",
+                    medal, couple.partner1Name(), couple.partner2Name(), couple.duration()));
         }
         embed.setDescription(description.toString());
         return embed.build();
     }
-    private static String formatDuration(LocalDateTime since) {
+    public static String formatDuration(LocalDateTime since) {
         Duration duration = Duration.between(since, LocalDateTime.now());
         long days = duration.toDays();
         long hours = duration.toHoursPart();
@@ -141,6 +129,14 @@ public class MarriageEmbedFactory {
         if(days > 0) return String.format("%d дн. %d ч.", days, hours);
         if(hours > 0) return String.format("%d ч. %d мин.", hours, minutes);
         return String.format("%d мин.", minutes);
+    }
+    private String getMedal(int rank) {
+        return switch (rank) {
+            case 1 -> "🥇";
+            case 2 -> "🥈";
+            case 3 -> "🥉";
+            default -> String.format("`%d.`", rank);
+        };
     }
 
 }

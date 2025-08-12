@@ -2,9 +2,11 @@ package com.ovidius.adapter.listeners;
 
 import com.ovidius.adapter.embeds.MarriageEmbedFactory;
 import com.ovidius.adapter.services.CoupleInteractionService;
+import com.ovidius.adapter.services.CoupleTopService;
 import com.ovidius.adapter.services.MarriageManagerService;
 import com.ovidius.adapter.services.MarriageProposalService;
 import com.ovidius.persistence.model.Marriage;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -24,16 +26,19 @@ public class MarriageListener extends ListenerAdapter {
     private final MarriageManagerService marriageManager;
     private final CoupleInteractionService interactionService;
     private final MarriageEmbedFactory embedFactory;
+    private final CoupleTopService coupleTopService;
 
     public MarriageListener(
             MarriageProposalService proposalService,
             MarriageManagerService marriageManager,
             CoupleInteractionService interactionService,
-            MarriageEmbedFactory embedFactory) {
+            MarriageEmbedFactory embedFactory,
+            CoupleTopService coupleTopService) {
         this.proposalService = proposalService;
         this.marriageManager = marriageManager;
         this.interactionService = interactionService;
         this.embedFactory = embedFactory;
+        this.coupleTopService = coupleTopService;
     }
 
     @Override
@@ -147,7 +152,17 @@ public class MarriageListener extends ListenerAdapter {
     }
 
     private void handleCoupleTop(SlashCommandInteractionEvent event) {
-        event.replyEmbeds(embedFactory.createCouplesTopEmbed(marriageManager.getTopTenCouples(), event.getJDA())).queue();
+        event.deferReply().queue();
+
+        coupleTopService.getTopCouplesInfo(event.getGuild())
+                .whenComplete((coupleInfos, throwable) -> {
+                    if (throwable != null) {
+                        event.getHook().sendMessage("❌ Не удалось загрузить топ пар.").queue();
+                        return;
+                    }
+                    MessageEmbed embed = embedFactory.createCouplesTopEmbed(coupleInfos);
+                    event.getHook().sendMessageEmbeds(embed).queue();
+                });
     }
 
 
