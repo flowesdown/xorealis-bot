@@ -70,7 +70,10 @@ public class CommandRegistry {
                         .addOption(OptionType.STRING,"type","Тип: TOWN или NATION",true)
                         .addOption(OptionType.STRING,"name","Название города/нации",true)
                         .addOption(OptionType.STRING,"url","Прямая ссылка на изображение (URL)", true)
-                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED)
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("guide", "Показать интерактивный гайд")
+                        .addOption(OptionType.STRING, "name", "Название гайда (например, towny)", true),
+                Commands.slash("about", "Показывает информацию о боте и его создателях")
         ).queue();
     }
 }
