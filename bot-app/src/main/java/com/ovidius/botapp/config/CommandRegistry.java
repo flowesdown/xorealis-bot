@@ -1,6 +1,7 @@
 package com.ovidius.botapp.config;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
@@ -64,8 +65,12 @@ public class CommandRegistry {
                                 new SubcommandData("nations-balance", "Топ-10 наций по балансу"),
                                 new SubcommandData("nations-residents", "Топ-10 наций по жителям"),
                                 new SubcommandData("nations-landsize", "Топ-10 наций по размеру")
-                        )
-
+                        ),
+                Commands.slash("set-crest","Установить герб/иконку для города или нации(только для админов)")
+                        .addOption(OptionType.STRING,"type","Тип: TOWN или NATION",true)
+                        .addOption(OptionType.STRING,"name","Название города/нации",true)
+                        .addOption(OptionType.STRING,"url","Прямая ссылка на изображение (URL)", true)
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED)
         ).queue();
     }
 }
