@@ -1,16 +1,16 @@
 package com.ovidius.minecraft.client.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.Map;
 
-@Data
-public class NetworkStatusDto {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public record NetworkStatusDto(
+        @JsonProperty("total_online") int totalOnline,
+        Map<String, Integer> servers
+) {
 
-    @JsonProperty("total_online")
-    private int totalOnline;
 
-    @JsonProperty("servers")
-    private Map<String, Integer> servers;
 }

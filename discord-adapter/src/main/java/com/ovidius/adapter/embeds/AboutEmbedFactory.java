@@ -13,7 +13,7 @@ public class AboutEmbedFactory {
 
     private static final String BOT_AVATAR_URL = "https://easydonate.s3.easyx.ru/images/logos/58/e2/58e26009a0104812d144b733899dfb37816dcd0a7fea8e85b6eafb07b78dc2fc.png";
     private static final String AUTHOR_ICON_URL = "https://avatars.githubusercontent.com/u/191921847?s=400&u=738646439f130eb41f96057977b0a1c4bbe20db6&v=4";
-    private static final String BOT_VERSION = "1.0.0";
+    private static final String BOT_VERSION = "1.0.1";
 
     public MessageEmbed createAboutEmbed(User botUser, String authorDiscordTag) {
 
